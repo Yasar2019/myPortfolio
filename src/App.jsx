@@ -27,11 +27,11 @@ const siteProps = {
   name: "Yasar Nazzarian",
   title: "Software Engineering Student & Content Creator",
   email: "yasar20111926@hotmail.com",
-  gitHub: "https://github.com/Yasar2019",
+  gitHub: "Yasar2019",
   //instagram: "microsoft",
-  linkedIn: "https://www.linkedin.com/in/yasarnazzarian-98/",
+  linkedIn: "yasarnazzarian-98/",
   //medium: "",
-  twitter: "https://twitter.com/yasarnazarian",
+  twitter: "yasarnazarian",
   //youTube: "Code",
 };
 
