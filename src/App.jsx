@@ -25,7 +25,7 @@ import "./styles.css";
  */
 const siteProps = {
   name: "Yasar Nazzarian",
-  title: "Software Engineering Student & Content Creator",
+  title: "Software Engineering Student & AI enthousiat",
   email: "yasar20111926@hotmail.com",
   gitHub: "Yasar2019",
   //instagram: "microsoft",
