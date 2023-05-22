@@ -135,3 +135,61 @@ html {
     transform: translateX(0);
   }
 }
+
+/* Media query for devices with max-width of 600px */
+@media (max-width: 600px) {
+
+  h1 {
+    font-size: 4rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  p {
+    font-size: 16px;
+  }
+
+  p.large {
+    font-size: 20px;
+  }
+
+  .container {
+    margin: 10px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .container .box {
+    width: 90%; /* or any width you think is suitable for mobile devices */
+  }
+
+}
+
+/* Media query for devices with max-width of 900px */
+@media (max-width: 900px) {
+
+  h1 {
+    font-size: 5rem;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+  }
+
+  p {
+    font-size: 18px;
+  }
+
+  p.large {
+    font-size: 22px;
+  }
+
+  .container {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-gap: 15px;
+  }
+
+}
