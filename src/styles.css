@@ -191,5 +191,67 @@ html {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     grid-gap: 15px;
   }
-
 }
+  .about-content {
+    background-color: rgba(255, 235, 205, 0.5);
+    width: 50%;
+    padding: 4rem;
+    margin: 3rem auto;
+    text-align: center;
+  }
+  
+  .skills-list {
+    text-align: left;
+    columns: 2;
+    font-size: 1.25rem;
+    margin: 2rem 3rem;
+    gap: 3rem;
+  }
+  
+  .about-quote {
+    padding: 1rem 3rem 0;
+  }
+  
+  @media (max-width: 900px) {
+    .about-content {
+      width: 70%;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .about-content {
+      width: 90%;
+    }
+  
+    .skills-list {
+      columns: 1;
+    }
+  }
+
+  .portfolio-layout {
+    display: flex;
+    flex-direction: row;
+    padding-top: 3rem;
+  }
+  
+  .portfolio-image-container {
+    max-width: 40%;
+    align-self: center;
+  }
+  
+  .portfolio-image {
+    height: 90%;
+    width: 100%;
+    object-fit: cover;
+    animation: 1s ease-out 0s 1 slideInLeft;
+  }
+  
+  .project-title {
+    flex-basis: 40px;
+  }
+  
+  @media (max-width: 768px) {
+    .portfolio-layout {
+      flex-direction: column;
+    }
+  }

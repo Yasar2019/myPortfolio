@@ -24,7 +24,7 @@ const imageAltText = "background";
  * Sort description that expands on your title on the Home component.
  */
 const description =
-  "I'm a Software Engineering student studying at École de technologie supérieur University at Montreal, Canada. I'm an AI enthousiat. I am planning to develop my skills in software and AI as an intern at the integration of AI solutions department of Ville de Laval.";
+  "I'm a Software Engineering student studying at École de technologie supérieur University at Montreal, Canada. I'm an AI enthousiat. I am planning to develop my skills in software and AI development. I am also interested in Data Science and Machine Learning. I am looking for an internship in AI development.";
 
 /**
  * List of some of skills or technologies you work on, are learning,
@@ -49,33 +49,17 @@ const About = () => {
   return (
     <section className="light" id="about">
       <img className="background" src={image} alt={imageAltText} />
-      <div
-        style={{
-          backgroundColor: "rgba(255, 235, 205, 0.5)",
-          width: "50%",
-          padding: "4rem",
-          margin: "3rem auto",
-          textAlign: "center",
-        }}
-      >
+      <div className="about-content">
         <h2>About Myself</h2>
         <p className="large">{description}</p>
         <hr />
-        <ul
-          style={{
-            textAlign: "left",
-            columns: 2,
-            fontSize: "1.25rem",
-            margin: "2rem 3rem",
-            gap: "3rem",
-          }}
-        >
+        <ul className="skills-list">
           {skillsList.map((skill) => (
             <li key={skill}>{skill}</li>
           ))}
         </ul>
         <hr />
-        <p style={{ padding: "1rem 3rem 0" }}>{detailOrQuote}</p>
+        <p className="about-quote">{detailOrQuote}</p>
       </div>
     </section>
   );
