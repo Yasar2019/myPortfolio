@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+   <url>
+      <loc>https://witty-mud-031b23a0f.2.azurestaticapps.net//</loc>
+      <lastmod>2023-05-22</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>1.0</priority>
+   </url>
+   <url>
+      <loc>https://witty-mud-031b23a0f.2.azurestaticapps.net/about</loc>
+      <lastmod>2023-05-22</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://witty-mud-031b23a0f.2.azurestaticapps.net/portfolio</loc>
+      <lastmod>2023-05-22</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+</urlset>
