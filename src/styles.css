@@ -250,6 +250,20 @@ html {
     flex-basis: 40px;
   }
   
+  .portfolio-image-container {
+    max-width: 100%;
+    height: 200px; /* Adjust this value as needed */
+  }
+
+  .portfolio-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1;
+  }
+
   @media (max-width: 768px) {
     .portfolio-layout {
       flex-direction: column;
