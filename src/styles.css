@@ -250,6 +250,13 @@ html {
     flex-basis: 40px;
   }
   
+  .project-container {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 10px;
+  margin: 10px 0;
+  }
+
   .portfolio-image-container {
     max-width: 100%;
     height: 200px; /* Adjust this value as needed */
