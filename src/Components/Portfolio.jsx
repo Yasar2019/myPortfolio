@@ -56,7 +56,7 @@ const Portfolio = () => {
         <title>Portfolio</title>
         <meta name="description" content="Highlight of my work and projects" />
       </Helmet>
-      <h2 className="portfolio-h2" className="portfolio-h2">Portfolio</h2>
+      <h2 className="portfolio-h2" style={{color: 'white'}}>Portfolio</h2>
       <div className="portfolio-layout">
         <div className="portfolio-image-container">
           <img className="portfolio-image" src={image} alt={imageAltText} />
