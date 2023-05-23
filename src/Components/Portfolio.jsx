@@ -51,7 +51,7 @@ const projectList = [
 const Portfolio = () => {
   return (
     <section className="light" id="portfolio">
-      <h2>Portfolio</h2>
+      <h2 className="portfolio-h2">Portfolio</h2>
       <div className="portfolio-layout">
         <div className="portfolio-image-container">
           <img className="portfolio-image" src={image} alt={imageAltText} />
