@@ -5,6 +5,7 @@
  * user scrolls so that they can constantly reach any part of your page.
  */
 import React from "react";
+import { Helmet } from "react-helmet";
 
 const Header = () => {
   return (
@@ -21,6 +22,10 @@ const Header = () => {
         zIndex: 10,
       }}
     >
+      <Helmet>
+        <title>Portfolio</title>
+        <meta name="description" content="Homepage of my Yasar Nazzarian's portfolio site" />
+      </Helmet>
       <a href="#home">Home</a>
       <a href="#about">About</a>
       <a href="#portfolio">Portfolio</a>

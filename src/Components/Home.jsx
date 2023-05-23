@@ -8,6 +8,7 @@
 import React from "react";
 import arrowSvg from "../images/down-arrow.svg";
 import PropTypes from "prop-types";
+import { Helmet } from "react-helmet";
 
 /**
  * Home background image
@@ -22,12 +23,18 @@ import PropTypes from "prop-types";
  */
 import image from "../images/336504234_1567293743738236_3536723735888733514_n.jpg";
 
-const imageAltText = "Digital art of a PC";
+const imageAltText = "AI Digital art of a PC, generated using Midjourny AI";
 
 const Home = ({ name, title }) => {
   return (
     <section id="home" className="dark">
-      <img className="background" src={image} alt="" />
+      <Helmet>
+        <title>
+          {name} - {title}
+        </title>
+        <meta name="description" content={title} />
+      </Helmet>
+      <img className="background" src={image} alt={imageAltText} />
       <div style={{ position: "absolute", top: "30%", left: "2rem" }}>
         <h1>{name}</h1>
         <h2>{title}</h2>

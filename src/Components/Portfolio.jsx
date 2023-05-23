@@ -9,6 +9,7 @@
  */
 
 import React from "react";
+import { Helmet } from "react-helmet";
 
 /**
  * Desk image
@@ -51,7 +52,11 @@ const projectList = [
 const Portfolio = () => {
   return (
     <section className="light" id="portfolio">
-      <h2 className="portfolio-h2">Portfolio</h2>
+      <Helmet>
+        <title>Portfolio</title>
+        <meta name="description" content="Highlight of my work and projects" />
+      </Helmet>
+      <h2 className="portfolio-h2" className="portfolio-h2">Portfolio</h2>
       <div className="portfolio-layout">
         <div className="portfolio-image-container">
           <img className="portfolio-image" src={image} alt={imageAltText} />

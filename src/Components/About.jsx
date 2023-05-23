@@ -5,6 +5,7 @@
  */
 
 import React from "react";
+import { Helmet } from "react-helmet";
 
 /**
  * About background image
@@ -48,6 +49,10 @@ const detailOrQuote =
 const About = () => {
   return (
     <section className="light" id="about">
+      <Helmet>
+        <title>About Me</title>
+        <meta name="description" content="About Yasar Nazzarian" />
+      </Helmet>
       <img className="background" src={image} alt={imageAltText} />
       <div className="about-content">
         <h2>About Myself</h2>

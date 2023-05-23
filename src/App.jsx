@@ -5,6 +5,7 @@
  */
 
 import React from "react";
+import { Helmet } from "react-helmet";
 
 import About from "./Components/About";
 import Footer from "./Components/Footer";
@@ -41,6 +42,15 @@ const secondaryColor = "#D2F1E4";
 const App = () => {
   return (
     <div id="main">
+      <Helmet>
+        <title>
+          {siteProps.name} - {siteProps.title}
+        </title>
+        <meta
+          name="description"
+          content="Welcome to my personal website. Here you can learn more about me, my portfolio, and how to get in touch!"
+        />
+      </Helmet>
       <Header />
       <Home name={siteProps.name} title={siteProps.title} />
       <About />

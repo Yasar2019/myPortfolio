@@ -9,6 +9,7 @@
  */
 import React from "react";
 import PropTypes from "prop-types";
+import { Helmet } from "react-helmet";
 
 import devDotToIcon from "../images/socials/devdotto.svg";
 import envelopeIcon from "../images/socials/envelope.svg";
@@ -27,18 +28,7 @@ import youTubeIcon from "../images/socials/youtube.svg";
  */
 
 const Footer = (props) => {
-  const {
-    devDotTo,
-    email,
-    gitHub,
-    instagram,
-    linkedIn,
-    medium,
-    name,
-    primaryColor,
-    twitter,
-    youTube,
-  } = props;
+  const { devDotTo, email, gitHub, instagram, linkedIn, medium, name, twitter, youTube } = props;
 
   return (
     <div
@@ -52,6 +42,10 @@ const Footer = (props) => {
         backgroundColor: "#2c3e50",
       }}
     >
+      <Helmet>
+        <title>Contact Me</title>
+        <meta name="description" content="Contact information and social media links" />
+      </Helmet>
       <div
         style={{
           display: "flex",
