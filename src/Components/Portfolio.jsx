@@ -58,7 +58,7 @@ const Portfolio = () => {
         </div>
         <div className="container">
           {projectList.map((project) => (
-            <div className="box" key={project.title}>
+            <div className="project-container" key={project.title}>
               <a href={project.url} target="_blank" rel="noopener noreferrer">
                 <h3 className="project-title">{project.title}</h3>
               </a>
