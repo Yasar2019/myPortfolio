@@ -17,7 +17,7 @@ import { Helmet } from "react-helmet";
  * Need an image? Check out https://unsplash.com to download a image you
  * freely use on your site.
  */
-import image from "../images/337648659_228797629558908_700263482333340213_n.jpg";
+import image from "../images/taipei.jpg";
 
 const imageAltText = "background";
 

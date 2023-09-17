@@ -21,9 +21,9 @@ import { Helmet } from "react-helmet";
  * Need an image? Check out https://unsplash.com to download a photo you
  * freely use on your site.
  */
-import image from "../images/336504234_1567293743738236_3536723735888733514_n.jpg";
+import image from "../images/taipei-night.jpg";
 
-const imageAltText = "AI Digital art of a PC, generated using Midjourny AI";
+const imageAltText = "A night view of Taipei City";
 
 const Home = ({ name, title }) => {
   return (

@@ -47,6 +47,11 @@ const projectList = [
     description: "Created from Microsoft's resume workshop and deployed to GitHub pages.",
     url: "https://yasar2019.github.io/MyResume/",
   },
+  {
+    title: "Taiwan Trip",
+    description: "various photos from my trip to Taiwan in 2023 as an exchange student.",
+    url: "https://yasar2019.github.io/taiwan_trip/",
+  },
 ];
 
 const Portfolio = () => {
