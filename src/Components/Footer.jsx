@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import logoPic from '/src/images/LOGO.png';
+import logoPic from '/src/images/logo.png';
 
 const FooterSection = styled.footer`
   background-color: #333;
