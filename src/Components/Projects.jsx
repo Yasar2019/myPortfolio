@@ -5,10 +5,14 @@ import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
 const ProjectsSection = styled.section`
-  padding: 4rem 0;
+  padding: 4rem 1rem; /* Adjust padding for smaller screens */
   background-color: #f9f9f9;
   color: #333;
   text-align: center;
+
+  @media (max-width: 768px) {
+    padding: 3rem 1rem;
+  }
 `;
 
 const ProjectsList = styled.div`
@@ -17,6 +21,10 @@ const ProjectsList = styled.div`
   justify-content: center;
   gap: 2rem;
   margin-top: 2rem;
+
+  @media (max-width: 768px) {
+    gap: 1.5rem; /* Smaller gap for mobile */
+  }
 `;
 
 const ProjectCard = styled(motion.div)`
@@ -26,6 +34,10 @@ const ProjectCard = styled(motion.div)`
   background-color: #ffffff;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   text-align: left;
+
+  @media (max-width: 768px) {
+    width: 90%; /* Take most of the screen width on mobile */
+  }
 `;
 
 const Projects = () => (
