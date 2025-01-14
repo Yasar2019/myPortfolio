@@ -43,6 +43,11 @@ const Projects = () => (
           description: "Built machine learning networks for Go game imitation.",
           technologies: "CNN, RNN, LSTM",
         },
+        {
+          title: "Document Similarity Detection using LSH and MapReduce on Apache Spark",
+          description: "Finding similar documents using LSH with MapReduce on multi-node Spark Cluster",
+          technologies: "Apache Spark, MapReduce, LSH, Hadoop, Python, Scala",
+        },
       ].map((project) => (
         <ProjectCard
           key={project.title}

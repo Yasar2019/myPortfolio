@@ -10,6 +10,8 @@ import Experience from './Components/Experience';
 import Certifications from './Components/Certifications';
 import Contact from './Components/Contact';
 import Footer from './Components/Footer';
+import GithubRepos from './Components/GithubRepos';
+import ProjectsWithGithub from './Components/ProjectsWithGithub';
 
 function App() {
   return (
@@ -17,12 +19,11 @@ function App() {
       <GlobalStyles />
       <Header />
       <Skills />
-      <Projects />
+      <ProjectsWithGithub />
       <Experience />
       <Certifications />
       <Contact />
       <Footer />
-
     </>
   );
 }
