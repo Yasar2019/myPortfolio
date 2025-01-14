@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
-import logoPic from '../images/logo.png';
+import logoPic from '../images/LOGO.png';
 
 const FooterSection = styled.footer`
   background-color: #333;
@@ -66,10 +65,12 @@ const SubscribeContainer = styled.div`
 const LogoContainer = styled.div`
   text-align: center;
   img {
-    width: 80px;
+    width: 150px; /* Increase the width */
+    height: auto; /* Maintain aspect ratio */
     margin-bottom: 1rem;
   }
 `;
+
 
 const QuickLinks = styled.ul`
   list-style: none;
@@ -128,7 +129,7 @@ const Footer = () => {
       {/* About Section */}
       <Section>
         <LogoContainer>
-          <img src="src\images\logo.png" alt="Logo" /> {/* Replace with your logo */}
+          <img src= {logoPic} alt="Logo" /> 
         </LogoContainer>
         <p>
           A passionate software engineer with experience in AI integration, cloud computing, and software development. Let's create impactful solutions together.
@@ -144,22 +145,6 @@ const Footer = () => {
           <li><a href="#projects">Projects</a></li>
           <li><a href="#contact">Contact</a></li>
         </QuickLinks>
-      </Section>
-
-      {/* Social Media Section */}
-      <Section>
-        <h3>Connect</h3>
-        <SocialLinks>
-          <a href="https://github.com/Yasar2019" target="_blank" rel="noopener noreferrer">
-            <FaGithub />
-          </a>
-          <a href="https://www.linkedin.com/in/yasarnazzarian-98" target="_blank" rel="noopener noreferrer">
-            <FaLinkedin />
-          </a>
-          <a href="mailto:yasar20111926@hotmail.com" target="_blank" rel="noopener noreferrer">
-            <FaEnvelope />
-          </a>
-        </SocialLinks>
       </Section>
 
       {/* Footer Bottom */}

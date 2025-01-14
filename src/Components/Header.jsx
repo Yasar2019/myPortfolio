@@ -1,42 +1,54 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 import profilePic from '../images/profile-pic.png';
+
 const HeaderSection = styled.section`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  text-align: center;
   padding: 3rem;
   background-color: #f8f8f8;
-  min-height: 60vh;
+  min-height: 80vh;
 `;
 
-const RightSide = styled.div`
-  flex: 1;
-  text-align: left;
-  padding: 2rem;
+const ProfileImage = styled.img`
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  margin-bottom: 1.5rem;
+`;
 
-  h1 {
-    font-size: 2.8rem;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 1rem;
-  }
+const Name = styled.h1`
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1rem;
+`;
 
-  p {
-    font-size: 1.1rem;
-    color: #555;
-    line-height: 1.6;
-    margin-bottom: 2rem;
-  }
+const Description = styled.p`
+  font-size: 1.2rem;
+  color: #555;
+  line-height: 1.6;
+  max-width: 600px;
+  margin-bottom: 2rem;
+`;
 
-  .button-container {
-    display: flex;
-    gap: 1rem;
+const ButtonContainer = styled.div`
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  a {
+    text-decoration: none;
   }
 
   button {
     padding: 0.8rem 1.5rem;
-    margin-right: 1rem;
     border: none;
     background-color: #ff6f61;
     color: #fff;
@@ -48,56 +60,73 @@ const RightSide = styled.div`
     &:hover {
       background-color: #e65a51;
     }
-  }
 
-  button.secondary {
-    background-color: #333;
-    
-    &:hover {
-      background-color: #555;
+    &.secondary {
+      background-color: #333;
+
+      &:hover {
+        background-color: #555;
+      }
     }
   }
 `;
 
-const ProfileImage = styled.img`
-  width: 300px;
-  height: 300px;
-  border-radius: 15px;
-  object-fit: cover;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-`;
-
-const LeftSide = styled.div`
-  flex: 1;
+const ConnectSection = styled.div`
   display: flex;
+  gap: 1rem;
   justify-content: center;
-  align-items: center;
+
+  a {
+    color: #ff6f61;
+    font-size: 1.5rem;
+    transition: color 0.3s;
+
+    &:hover {
+      color: #333;
+    }
+  }
 `;
 
 const Header = () => {
   return (
     <HeaderSection>
-      <LeftSide>
-        <ProfileImage src={profilePic} alt="Yasar Nazzarian" />
-      </LeftSide>
-      <RightSide>
-        <h1>Yasar Nazzarian</h1>
-        <p>
-          I'm a passionate software engineer with experience in AI integration,
-          cloud computing, and software development. Let's create impactful solutions together.
-        </p>
-        <div className="button-container">
-          {/* Scroll to the Projects section */}
-          <a href="#projects">
-            <button>View Projects</button>
-          </a>
-
-          {/* Scroll to the Contact section */}
-          <a href="#Contact">
-            <button className="secondary">Contact Me</button>
-          </a>
-        </div>
-      </RightSide>
+      <ProfileImage src={profilePic} alt="Yasar Nazzarian" />
+      <Name>Yasar Nazzarian</Name>
+      <Description>
+        I'm a passionate software Developer with experience in AI integration,
+        cloud computing, and software development. Let's create impactful solutions together.
+      </Description>
+      <ButtonContainer>
+        <a href="#projects">
+          <button>View Projects</button>
+        </a>
+        <a href="#Contact">
+          <button className="secondary">Contact Me</button>
+        </a>
+      </ButtonContainer>
+      <ConnectSection>
+        <a
+          href="https://github.com/Yasar2019"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <FaGithub />
+        </a>
+        <a
+          href="https://www.linkedin.com/in/yasarnazzarian-98"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <FaLinkedin />
+        </a>
+        <a
+          href="mailto:yasar20111926@hotmail.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <FaEnvelope />
+        </a>
+      </ConnectSection>
     </HeaderSection>
   );
 };
