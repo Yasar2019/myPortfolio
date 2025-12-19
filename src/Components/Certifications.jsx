@@ -40,6 +40,13 @@ const Certifications = () => {
         <h3>Microsoft Certified: Azure AI Fundamentals</h3>
         <a href="#" target="_blank">View Certificate</a>
       </CertificationCard>
+      <CertificationCard>
+        <h3>ITIL 4 Foundation Certificate in IT Service Management</h3>
+        <p>PeopleCert</p>
+        <p>Issued Apr 2025 · Expires Apr 2028</p>
+        <p>Credential ID ITIL 4 Foundation Certificate in IT Service Management</p>
+        <a href="#" target="_blank">View Certificate</a>
+      </CertificationCard>
     </Section>
   );
 };
