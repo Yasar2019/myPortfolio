@@ -12,6 +12,90 @@ const HeaderSection = styled.section`
   padding: 3rem;
   background-color: #f8f8f8;
   min-height: 80vh;
+  position: relative;
+  overflow: hidden;
+`;
+
+const HeroScene = styled.div`
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  perspective: 1200px;
+  z-index: 0;
+  transform: translateY(calc(var(--scroll-progress) * 30px));
+`;
+
+const Orb = styled.div`
+  position: relative;
+  width: 220px;
+  height: 220px;
+  transform-style: preserve-3d;
+  animation: orbSpin 14s linear infinite;
+  opacity: 0.65;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 25px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba(255, 111, 97, 0.25));
+    box-shadow: 0 0 40px rgba(255, 111, 97, 0.2);
+    transform: translateZ(20px);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 50px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 111, 97, 0.35);
+    transform: translateZ(-20px);
+  }
+
+  @keyframes orbSpin {
+    from {
+      transform: rotateX(18deg) rotateY(0deg);
+    }
+    to {
+      transform: rotateX(18deg) rotateY(360deg);
+    }
+  }
+`;
+
+const Ring = styled.span`
+  position: absolute;
+  inset: 25px;
+  border-radius: 50%;
+  border: 1px solid rgba(51, 51, 51, 0.15);
+  transform-style: preserve-3d;
+  animation: ringFloat 7s ease-in-out infinite;
+
+  &:nth-child(1) {
+    transform: rotateX(65deg) rotateZ(20deg) translateZ(25px);
+  }
+
+  &:nth-child(2) {
+    transform: rotateY(75deg) rotateZ(-15deg) translateZ(-10px);
+    animation-delay: 1.5s;
+  }
+
+  &:nth-child(3) {
+    transform: rotateX(80deg) rotateZ(80deg) translateZ(10px);
+    animation-delay: 3s;
+  }
+
+  @keyframes ringFloat {
+    0%,
+    100% {
+      filter: drop-shadow(0 0 8px rgba(255, 111, 97, 0.2));
+    }
+    50% {
+      filter: drop-shadow(0 0 18px rgba(73, 135, 255, 0.3));
+    }
+  }
 `;
 
 const ProfileImage = styled.img`
@@ -21,6 +105,8 @@ const ProfileImage = styled.img`
   object-fit: cover;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
 `;
 
 const Name = styled.h1`
@@ -28,6 +114,8 @@ const Name = styled.h1`
   font-weight: bold;
   color: #333;
   margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
 `;
 
 const Description = styled.p`
@@ -36,12 +124,16 @@ const Description = styled.p`
   line-height: 1.6;
   max-width: 600px;
   margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   gap: 1rem;
   margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
 
   a {
     text-decoration: none;
@@ -75,6 +167,8 @@ const ConnectSection = styled.div`
   display: flex;
   gap: 1rem;
   justify-content: center;
+  position: relative;
+  z-index: 1;
 
   a {
     color: #ff6f61;
@@ -90,6 +184,13 @@ const ConnectSection = styled.div`
 const Header = () => {
   return (
     <HeaderSection>
+      <HeroScene>
+        <Orb>
+          <Ring />
+          <Ring />
+          <Ring />
+        </Orb>
+      </HeroScene>
       <ProfileImage src={profilePic} alt="Yasar Nazzarian" />
       <Name>Yasar Nazzarian</Name>
       <Description>
