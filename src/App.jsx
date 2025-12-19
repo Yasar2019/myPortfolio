@@ -12,6 +12,7 @@ import Contact from './Components/Contact';
 import Footer from './Components/Footer';
 import GithubRepos from './Components/GithubRepos';
 import ProjectsWithGithub from './Components/ProjectsWithGithub';
+import ScrollReveal from './Components/ScrollReveal';
 
 function App() {
   useEffect(() => {
@@ -50,12 +51,24 @@ function App() {
     <>
       <GlobalStyles />
       <Header />
-      <Skills />
-      <ProjectsWithGithub />
-      <Experience />
-      <Certifications />
-      <Contact />
-      <Footer />
+      <ScrollReveal>
+        <Skills />
+      </ScrollReveal>
+      <ScrollReveal delay={0.1}>
+        <ProjectsWithGithub />
+      </ScrollReveal>
+      <ScrollReveal delay={0.15}>
+        <Experience />
+      </ScrollReveal>
+      <ScrollReveal delay={0.2}>
+        <Certifications />
+      </ScrollReveal>
+      <ScrollReveal delay={0.25}>
+        <Contact />
+      </ScrollReveal>
+      <ScrollReveal delay={0.3}>
+        <Footer />
+      </ScrollReveal>
     </>
   );
 }
