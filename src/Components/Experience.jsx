@@ -3,6 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
+import experienceData from '../data/experience';
 
 const ExperienceSection = styled.section`
   padding: 4rem 0;
@@ -52,26 +53,7 @@ const Experience = () => (
   <ExperienceSection id="experience">
     <h2>Experience</h2>
     <ExperienceList>
-      {[
-        {
-          company: "Shared Services Canada",
-          role: "Software Support Analyst",
-          period: "May 2024 – Present",
-          responsibilities: "Provided technical support for Power Apps and Power BI, developed interactive dashboards using PowerPlatform.",
-        },
-        {
-          company: "Ville de Laval",
-          role: "IT Intern",
-          period: "Winter 2023",
-          responsibilities: "Integrated AI solutions into existing systems and provided technical analysis.",
-        },
-        {
-          company: "Delight Canada",
-          role: "Software Developer",
-          period: "Summer 2022",
-          responsibilities: "Developed microservices for horticulture lighting systems and enhanced ERP functionalities.",
-        },
-      ].map((job) => (
+      {experienceData.experiences.map((job) => (
         <ExperienceCard
           key={job.company}
           whileHover={{ scale: 1.05 }}

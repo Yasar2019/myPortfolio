@@ -3,6 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
+import projectsData from '../data/projects';
 
 const ProjectsSection = styled.section`
   padding: 4rem 1rem; /* Adjust padding for smaller screens */
@@ -44,23 +45,7 @@ const Projects = () => (
   <ProjectsSection id="projects">
     <h2>Projects</h2>
     <ProjectsList>
-      {[
-        {
-          title: "Microservices for STM & TomTom Data Integration",
-          description: "Developed a microservice architecture to compare travel times.",
-          technologies: "Python, Kafka, Microservices",
-        },
-        {
-          title: "TBrain Competition: Go Power Imitation",
-          description: "Built machine learning networks for Go game imitation.",
-          technologies: "CNN, RNN, LSTM",
-        },
-        {
-          title: "Document Similarity Detection using LSH and MapReduce on Apache Spark",
-          description: "Finding similar documents using LSH with MapReduce on multi-node Spark Cluster",
-          technologies: "Apache Spark, MapReduce, LSH, Hadoop, Python, Scala",
-        },
-      ].map((project) => (
+      {projectsData.projects.map((project) => (
         <ProjectCard
           key={project.title}
           whileHover={{ scale: 1.05 }}
