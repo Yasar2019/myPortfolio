@@ -1,7 +1,41 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 import profilePic from '../images/profile-pic.png';
+
+const TYPING_PHRASES = [
+  'AI Integration & Cloud Computing',
+  'Full-Stack Software Developer',
+  'Building Impactful Solutions',
+];
+
+const useTypewriter = (phrases, typingSpeed = 80, deletingSpeed = 40, pauseMs = 1800) => {
+  const [text, setText] = useState('');
+  const [phraseIndex, setPhraseIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const current = phrases[phraseIndex % phrases.length];
+    let timeout;
+
+    if (!isDeleting && text === current) {
+      timeout = setTimeout(() => setIsDeleting(true), pauseMs);
+    } else if (isDeleting && text === '') {
+      setIsDeleting(false);
+      setPhraseIndex(i => i + 1);
+    } else {
+      timeout = setTimeout(() => {
+        setText(prev =>
+          isDeleting ? prev.slice(0, -1) : current.slice(0, prev.length + 1)
+        );
+      }, isDeleting ? deletingSpeed : typingSpeed);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [text, isDeleting, phraseIndex, phrases, typingSpeed, deletingSpeed, pauseMs]);
+
+  return text;
+};
 
 const HeaderSection = styled.section`
   display: flex;
@@ -10,7 +44,7 @@ const HeaderSection = styled.section`
   justify-content: center;
   text-align: center;
   padding: 3rem;
-  background-color: #f8f8f8;
+  background-color: var(--bg-color, #f8f8f8);
   min-height: 80vh;
   position: relative;
   overflow: hidden;
@@ -112,20 +146,36 @@ const ProfileImage = styled.img`
 const Name = styled.h1`
   font-size: 2.5rem;
   font-weight: bold;
-  color: #333;
+  color: var(--text-color, #333);
   margin-bottom: 1rem;
   position: relative;
   z-index: 1;
 `;
 
-const Description = styled.p`
+const TypingText = styled.p`
   font-size: 1.2rem;
-  color: #555;
+  color: var(--subtext-color, #555);
   line-height: 1.6;
   max-width: 600px;
   margin-bottom: 2rem;
   position: relative;
   z-index: 1;
+  min-height: 2em;
+`;
+
+const Cursor = styled.span`
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  background: #ff6f61;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: blink 0.8s step-end infinite;
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
 `;
 
 const ButtonContainer = styled.div`
@@ -182,6 +232,8 @@ const ConnectSection = styled.div`
 `;
 
 const Header = () => {
+  const typedText = useTypewriter(TYPING_PHRASES);
+
   return (
     <HeaderSection>
       <HeroScene>
@@ -193,10 +245,9 @@ const Header = () => {
       </HeroScene>
       <ProfileImage src={profilePic} alt="Yasar Nazzarian" />
       <Name>Yasar Nazzarian</Name>
-      <Description>
-        I'm a passionate software Developer with experience in AI integration,
-        cloud computing, and software development. Let's create impactful solutions together.
-      </Description>
+      <TypingText>
+        {typedText}<Cursor />
+      </TypingText>
       <ButtonContainer>
         <a href="#projects">
           <button>View Projects</button>
