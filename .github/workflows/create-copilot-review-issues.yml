@@ -68,42 +68,37 @@ jobs:
               }
             ];
 
+            // Fetch all existing repository labels once to avoid repeated API calls
+            const allLabels = await github.paginate(github.rest.issues.listLabelsForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 100
+            });
+            const existingLabelNames = new Set(allLabels.map(l => l.name));
+
+            // Fetch all existing issues (with pagination) to reliably detect duplicates
+            const existingIssues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'all',
+              per_page: 100
+            });
+            const existingTitles = new Set(existingIssues.map(i => i.title));
+
             for (const issue of issues) {
-              // Check if issue with the same title already exists
-              const existingIssues = await github.rest.issues.listForRepo({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                state: 'all',
-                per_page: 100
-              });
-
-              const alreadyExists = existingIssues.data.some(
-                existing => existing.title === issue.title
-              );
-
-              if (alreadyExists) {
+              if (existingTitles.has(issue.title)) {
                 console.log(`Issue already exists, skipping: "${issue.title}"`);
                 continue;
               }
 
-              // Ensure labels exist before applying them
-              const labelsToApply = [];
-              for (const labelName of (issue.labels || [])) {
-                try {
-                  await github.rest.issues.getLabel({
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    name: labelName
-                  });
-                  labelsToApply.push(labelName);
-                } catch (e) {
-                  if (e.status === 404) {
-                    console.log(`Label "${labelName}" does not exist, skipping it.`);
-                  } else {
-                    throw e;
-                  }
+              // Only apply labels that exist in the repository
+              const labelsToApply = (issue.labels || []).filter(name => {
+                if (!existingLabelNames.has(name)) {
+                  console.log(`Label "${name}" does not exist, skipping it.`);
+                  return false;
                 }
-              }
+                return true;
+              });
 
               const created = await github.rest.issues.create({
                 owner: context.repo.owner,
