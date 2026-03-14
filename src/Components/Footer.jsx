@@ -1,10 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
-import logoPic from '/src/images/logo.png';
+import React from "react";
+import styled from "styled-components";
+import logoPic from "/src/images/logo.png";
 
 const FooterSection = styled.footer`
-  background-color: #333;
-  color: #fff;
+  background-color: var(--footer-bg);
+  color: var(--footer-text);
   padding: 4rem 2rem;
   display: flex;
   justify-content: space-between;
@@ -20,10 +20,11 @@ const Section = styled.div`
   h3 {
     margin-bottom: 1rem;
     font-size: 1.3rem;
+    color: var(--footer-text);
   }
 
   p {
-    color: #ccc;
+    color: var(--footer-muted);
     line-height: 1.6;
     max-width: 280px;
     margin: 0 auto;
@@ -36,15 +37,22 @@ const SubscribeContainer = styled.div`
   h3 {
     font-size: 1.3rem;
     margin-bottom: 1rem;
+    color: var(--footer-text);
   }
 
   input {
     padding: 0.8rem;
-    border: none;
+    border: 1px solid var(--border);
     border-radius: 25px;
     width: 250px;
     margin-right: 10px;
     margin-bottom: 1rem;
+    background-color: var(--bg-muted);
+    color: var(--text-primary);
+
+    &::placeholder {
+      color: var(--text-muted);
+    }
   }
 
   button {
@@ -71,7 +79,6 @@ const LogoContainer = styled.div`
   }
 `;
 
-
 const QuickLinks = styled.ul`
   list-style: none;
   padding: 0;
@@ -80,7 +87,7 @@ const QuickLinks = styled.ul`
     margin-bottom: 0.5rem;
 
     a {
-      color: #fff;
+      color: var(--footer-text);
       text-decoration: none;
 
       &:hover {
@@ -90,27 +97,11 @@ const QuickLinks = styled.ul`
   }
 `;
 
-const SocialLinks = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-top: 1rem;
-
-  a {
-    color: #ff6f61;
-    font-size: 1.5rem;
-
-    &:hover {
-      color: #fff;
-    }
-  }
-`;
-
 const FooterBottom = styled.div`
   width: 100%;
   text-align: center;
   margin-top: 2rem;
-  color: #777;
+  color: var(--footer-muted);
   font-size: 0.9rem;
 `;
 
@@ -129,10 +120,11 @@ const Footer = () => {
       {/* About Section */}
       <Section>
         <LogoContainer>
-          <img src= {logoPic} alt="Logo" /> 
+          <img src={logoPic} alt="Logo" />
         </LogoContainer>
         <p>
-          A passionate software engineer with experience in AI integration, cloud computing, and software development. Let's create impactful solutions together.
+          A passionate software engineer with experience in AI integration, cloud computing, and
+          software development. Let&apos;s create impactful solutions together.
         </p>
       </Section>
 
@@ -140,10 +132,18 @@ const Footer = () => {
       <Section>
         <h3>Quick Links</h3>
         <QuickLinks>
-          <li><a href="#about">About Me</a></li>
-          <li><a href="#skills">Skills</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li>
+            <a href="#about">About Me</a>
+          </li>
+          <li>
+            <a href="#skills">Skills</a>
+          </li>
+          <li>
+            <a href="#projects">Projects</a>
+          </li>
+          <li>
+            <a href="#contact">Contact</a>
+          </li>
         </QuickLinks>
       </Section>
 

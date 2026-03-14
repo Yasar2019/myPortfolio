@@ -1,15 +1,18 @@
 // src/Components/AboutMe.jsx
 
-import React from 'react';
-import { motion } from 'framer-motion';
-import styled from 'styled-components';
+import React from "react";
+import { motion } from "framer-motion";
+import styled from "styled-components";
 
 const AboutSection = styled.section`
-  padding: 4rem 0;
-  background-color: #f9f9f9;
-  color: #333;
+  padding: 4rem 2rem;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
   text-align: center;
-  margin-top: 80px; // Leave space for header
+
+  h2 {
+    color: var(--text-secondary);
+  }
 `;
 
 const AboutContent = styled.div`
@@ -18,6 +21,7 @@ const AboutContent = styled.div`
   p {
     font-size: 1.2rem;
     line-height: 1.6;
+    color: var(--text-muted);
   }
 `;
 
@@ -31,9 +35,9 @@ const AboutMe = () => (
       <AboutContent>
         <h2>About Me</h2>
         <p>
-          I am a recent graduate in Software Engineering from École de Technologie Supérieure, Montreal, 
-          with a passion for AI integration, software development, and cloud computing. My goal is to deliver 
-          scalable and impactful solutions that use cutting-edge technologies.
+          I am a recent graduate in Software Engineering from École de Technologie Supérieure,
+          Montreal, with a passion for AI integration, software development, and cloud computing. My
+          goal is to deliver scalable and impactful solutions that use cutting-edge technologies.
         </p>
       </AboutContent>
     </motion.div>
