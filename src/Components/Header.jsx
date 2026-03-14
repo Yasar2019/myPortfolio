@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
-import profilePic from '../images/profile-pic.png';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
+import profilePic from "../images/profile-pic.png";
 
 const HeaderSection = styled.section`
   display: flex;
@@ -10,7 +10,7 @@ const HeaderSection = styled.section`
   justify-content: center;
   text-align: center;
   padding: 3rem;
-  background-color: #f8f8f8;
+  background-color: var(--header-bg);
   min-height: 80vh;
   position: relative;
   overflow: hidden;
@@ -37,17 +37,21 @@ const Orb = styled.div`
   opacity: 0.65;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 25px;
     border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba(255, 111, 97, 0.25));
+    background: radial-gradient(
+      circle at 30% 30%,
+      rgba(255, 255, 255, 0.9),
+      rgba(255, 111, 97, 0.25)
+    );
     box-shadow: 0 0 40px rgba(255, 111, 97, 0.2);
     transform: translateZ(20px);
   }
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: 50px;
     border-radius: 50%;
@@ -112,7 +116,7 @@ const ProfileImage = styled.img`
 const Name = styled.h1`
   font-size: 2.5rem;
   font-weight: bold;
-  color: #333;
+  color: var(--text-secondary);
   margin-bottom: 1rem;
   position: relative;
   z-index: 1;
@@ -120,12 +124,33 @@ const Name = styled.h1`
 
 const Description = styled.p`
   font-size: 1.2rem;
-  color: #555;
+  color: var(--text-muted);
   line-height: 1.6;
   max-width: 600px;
   margin-bottom: 2rem;
   position: relative;
   z-index: 1;
+  min-height: 3.2rem;
+`;
+
+const Cursor = styled.span`
+  display: inline-block;
+  width: 2px;
+  height: 1.2em;
+  background-color: var(--accent);
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: blink 0.9s step-end infinite;
+
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
 `;
 
 const ButtonContainer = styled.div`
@@ -171,17 +196,56 @@ const ConnectSection = styled.div`
   z-index: 1;
 
   a {
-    color: #ff6f61;
+    color: var(--accent);
     font-size: 1.5rem;
     transition: color 0.3s;
 
     &:hover {
-      color: #333;
+      color: var(--text-secondary);
     }
   }
 `;
 
+const phrases = [
+  "I'm a passionate Software Developer with experience in AI integration, cloud computing, and software development.",
+  "Let's create impactful solutions together.",
+  "Always learning. Always building.",
+];
+
+const TYPING_SPEED = 45;
+const PAUSE_DURATION = 1800;
+const ERASE_SPEED = 25;
+
 const Header = () => {
+  const [displayed, setDisplayed] = useState("");
+  const [phraseIdx, setPhraseIdx] = useState(0);
+  const [isTyping, setIsTyping] = useState(true);
+
+  useEffect(() => {
+    const current = phrases[phraseIdx];
+    let timeout;
+
+    if (isTyping) {
+      if (displayed.length < current.length) {
+        timeout = setTimeout(
+          () => setDisplayed(current.slice(0, displayed.length + 1)),
+          TYPING_SPEED
+        );
+      } else {
+        timeout = setTimeout(() => setIsTyping(false), PAUSE_DURATION);
+      }
+    } else {
+      if (displayed.length > 0) {
+        timeout = setTimeout(() => setDisplayed(displayed.slice(0, -1)), ERASE_SPEED);
+      } else {
+        setPhraseIdx((prev) => (prev + 1) % phrases.length);
+        setIsTyping(true);
+      }
+    }
+
+    return () => clearTimeout(timeout);
+  }, [displayed, isTyping, phraseIdx]);
+
   return (
     <HeaderSection>
       <HeroScene>
@@ -194,8 +258,8 @@ const Header = () => {
       <ProfileImage src={profilePic} alt="Yasar Nazzarian" />
       <Name>Yasar Nazzarian</Name>
       <Description>
-        I'm a passionate software Developer with experience in AI integration,
-        cloud computing, and software development. Let's create impactful solutions together.
+        {displayed}
+        <Cursor />
       </Description>
       <ButtonContainer>
         <a href="#projects">
@@ -206,11 +270,7 @@ const Header = () => {
         </a>
       </ButtonContainer>
       <ConnectSection>
-        <a
-          href="https://github.com/Yasar2019"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="https://github.com/Yasar2019" target="_blank" rel="noopener noreferrer">
           <FaGithub />
         </a>
         <a
@@ -220,11 +280,7 @@ const Header = () => {
         >
           <FaLinkedin />
         </a>
-        <a
-          href="mailto:yasar20111926@hotmail.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="mailto:yasar20111926@hotmail.com" target="_blank" rel="noopener noreferrer">
           <FaEnvelope />
         </a>
       </ConnectSection>

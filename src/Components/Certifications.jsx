@@ -1,25 +1,31 @@
-import React from 'react';
-import styled from 'styled-components';
-import itilCertificate from '../images/itil-4-certificate.png';
+import React from "react";
+import styled from "styled-components";
+import itilCertificate from "../images/itil-4-certificate.png";
 
 const Section = styled.section`
   padding: 4rem 0;
-  background-color: #f8f8f8;
+  background-color: var(--bg-primary);
   text-align: center;
 `;
 
 const CertificationCard = styled.div`
   display: inline-block;
-  background-color: #fff;
+  background-color: var(--bg-card);
   padding: 2rem;
   border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 8px var(--shadow);
+  border: 1px solid var(--border);
   margin: 1rem auto;
-  width: 50%; 
-  
-  h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
+  width: 50%;
+
+  h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+  }
+
+  p {
+    color: var(--text-muted);
   }
 
   a {

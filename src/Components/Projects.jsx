@@ -1,14 +1,14 @@
 // src/Components/Projects.jsx
 
-import React from 'react';
-import { motion } from 'framer-motion';
-import styled from 'styled-components';
-import projectsData from '../data/projects';
+import React from "react";
+import { motion } from "framer-motion";
+import styled from "styled-components";
+import projectsData from "../data/projects";
 
 const ProjectsSection = styled.section`
-  padding: 4rem 1rem; /* Adjust padding for smaller screens */
-  background-color: #f9f9f9;
-  color: #333;
+  padding: 4rem 1rem;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   text-align: center;
 
   @media (max-width: 768px) {
@@ -24,7 +24,7 @@ const ProjectsList = styled.div`
   margin-top: 2rem;
 
   @media (max-width: 768px) {
-    gap: 1.5rem; /* Smaller gap for mobile */
+    gap: 1.5rem;
   }
 `;
 
@@ -32,12 +32,18 @@ const ProjectCard = styled(motion.div)`
   width: 300px;
   padding: 1rem;
   border-radius: 10px;
-  background-color: #ffffff;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: var(--bg-card);
+  box-shadow: 0px 4px 8px var(--shadow);
   text-align: left;
+  border: 1px solid var(--border);
+
+  h3 {
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+  }
 
   @media (max-width: 768px) {
-    width: 90%; /* Take most of the screen width on mobile */
+    width: 90%;
   }
 `;
 
@@ -46,11 +52,7 @@ const Projects = () => (
     <h2>Projects</h2>
     <ProjectsList>
       {projectsData.projects.map((project) => (
-        <ProjectCard
-          key={project.title}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
+        <ProjectCard key={project.title} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
           <h3>{project.title}</h3>
           <p>{project.description}</p>
           <small>Technologies: {project.technologies}</small>
