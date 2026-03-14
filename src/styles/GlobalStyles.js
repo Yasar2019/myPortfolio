@@ -5,6 +5,16 @@ import { createGlobalStyle } from 'styled-components';
 const GlobalStyles = createGlobalStyle`
   :root {
     --scroll-progress: 0;
+
+    /* Light mode defaults */
+    --bg-color: #f8f8f8;
+    --text-color: #222;
+    --subtext-color: #666;
+    --card-bg: #f0f0f0;
+    --card-hover-bg: #e0e0e0;
+    --section-bg: #f9f9f9;
+    --toggle-bg: #333;
+    --toggle-color: #fff;
   }
 
   body {
@@ -12,8 +22,20 @@ const GlobalStyles = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
     font-family: 'Arial', sans-serif;
-    background-color: #f8f8f8;
-    color: #222;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  body.dark-mode {
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --subtext-color: #aaa;
+    --card-bg: #1e1e1e;
+    --card-hover-bg: #2a2a2a;
+    --section-bg: #181818;
+    --toggle-bg: #e0e0e0;
+    --toggle-color: #121212;
   }
 
   body::before,
@@ -65,10 +87,11 @@ const GlobalStyles = createGlobalStyle`
   h2 {
     font-size: 2.5rem;
     margin-bottom: 1.5rem;
+    color: var(--text-color);
   }
 
   p, small {
-    color: #666;
+    color: var(--subtext-color);
   }
 `;
 

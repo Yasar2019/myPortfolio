@@ -1,6 +1,6 @@
 // src/App.js
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import GlobalStyles from './styles/GlobalStyles';
 import Header from './Components/Header';
 import AboutMe from './Components/AboutMe';
@@ -13,8 +13,31 @@ import Footer from './Components/Footer';
 import GithubRepos from './Components/GithubRepos';
 import ProjectsWithGithub from './Components/ProjectsWithGithub';
 import ScrollReveal from './Components/ScrollReveal';
+import DarkModeToggle from './Components/DarkModeToggle';
+import BackToTop from './Components/BackToTop';
 
 function App() {
+  const [isDark, setIsDark] = useState(() => {
+    try {
+      return localStorage.getItem('darkMode') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  useEffect(() => {
+    if (isDark) {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+    }
+    try {
+      localStorage.setItem('darkMode', isDark);
+    } catch {
+      // ignore storage errors
+    }
+  }, [isDark]);
+
   useEffect(() => {
     let ticking = false;
 
@@ -50,8 +73,12 @@ function App() {
   return (
     <>
       <GlobalStyles />
+      <DarkModeToggle isDark={isDark} onToggle={() => setIsDark(d => !d)} />
       <Header />
       <ScrollReveal>
+        <AboutMe />
+      </ScrollReveal>
+      <ScrollReveal delay={0.05}>
         <Skills />
       </ScrollReveal>
       <ScrollReveal delay={0.1}>
@@ -69,6 +96,7 @@ function App() {
       <ScrollReveal delay={0.3}>
         <Footer />
       </ScrollReveal>
+      <BackToTop />
     </>
   );
 }

@@ -6,10 +6,9 @@ import styled from 'styled-components';
 
 const AboutSection = styled.section`
   padding: 4rem 0;
-  background-color: #f9f9f9;
-  color: #333;
+  background-color: var(--section-bg, #f9f9f9);
+  color: var(--text-color, #333);
   text-align: center;
-  margin-top: 80px; // Leave space for header
 `;
 
 const AboutContent = styled.div`
