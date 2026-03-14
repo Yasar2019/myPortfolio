@@ -1,0 +1,112 @@
+name: Create Issues from Copilot Review
+
+on:
+  push:
+    branches:
+      - copilot/create-issues-from-copilot-comments
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  create-issues:
+    runs-on: ubuntu-latest
+    name: Create GitHub Issues from Copilot PR Review
+
+    steps:
+      - name: Create issues from Copilot review on PR #8
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issues = [
+              {
+                title: "Guard GithubRepos.jsx against non-array API responses before calling .slice()",
+                body: `**Source:** Copilot review comment on PR #8 — \`src/Components/GithubRepos.jsx\` line 54\n\n## Problem\n\`data.slice(0, 5)\` assumes the GitHub API response is always an array. When rate-limited or on error, GitHub returns an object (e.g. \`{ message: ... }\`), which will cause a runtime error here.\n\n## Suggested Fix\nCheck \`response.ok\` and/or guard with \`Array.isArray(data)\` before slicing:\n\n\`\`\`js\nif (!response.ok || !Array.isArray(data)) {\n  // handle error\n  return;\n}\nconst repos = data.slice(0, 5);\n\`\`\`\n\n**Review thread:** https://github.com/Yasar2019/myPortfolio/pull/8#discussion_r2935935829`,
+                labels: ["bug", "enhancement"]
+              },
+              {
+                title: "Narrow overly broad CSS transition selectors and respect prefers-reduced-motion in GlobalStyles.js",
+                body: `**Source:** Copilot review comment on PR #8 — \`src/styles/GlobalStyles.js\` line 71\n\n## Problem\nThe global transition selector includes very broad elements like \`div\`, \`span\`, \`ul\`, and \`li\`, which can cause a lot of unnecessary style recalculation/repaints across the whole page (and can unexpectedly animate box-shadow changes).\n\n## Suggested Fix\n- Limit transitions to a smaller set of semantic/container elements involved in theming\n- Add a \`prefers-reduced-motion\` media query to disable transitions for users who prefer reduced motion:\n\n\`\`\`css\n@media (prefers-reduced-motion: reduce) {\n  * {\n    transition: none !important;\n    animation: none !important;\n  }\n}\n\`\`\`\n\n**Review thread:** https://github.com/Yasar2019/myPortfolio/pull/8#discussion_r2935935838`,
+                labels: ["enhancement", "performance"]
+              },
+              {
+                title: "Prevent flash of unstyled content (FOUC) on initial dark mode load in DarkModeToggle.jsx",
+                body: `**Source:** Copilot review comment on PR #8 — \`src/Components/DarkModeToggle.jsx\` line 49\n\n## Problem\nTheme is applied in a \`useEffect\`, which runs after the first paint. Users with a stored dark preference may see a flash of the light theme on initial load.\n\n## Suggested Fix\nConsider setting the \`data-theme\` attribute earlier (e.g. via \`useLayoutEffect\` or a small inline script in \`index.html\`) that reads \`localStorage\`/\`prefers-color-scheme\` before React mounts:\n\n\`\`\`html\n<!-- In index.html, before the React bundle loads -->\n<script>\n  (function() {\n    const stored = localStorage.getItem('theme');\n    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;\n    if (stored === 'dark' || (!stored && prefersDark)) {\n      document.documentElement.setAttribute('data-theme', 'dark');\n    }\n  })();\n</script>\n\`\`\`\n\n**Review thread:** https://github.com/Yasar2019/myPortfolio/pull/8#discussion_r2935935842`,
+                labels: ["bug", "enhancement"]
+              },
+              {
+                title: "Fix case-sensitive #Contact fragment ID mismatch in Header.jsx",
+                body: `**Source:** Copilot review comment on PR #8 — \`src/Components/Header.jsx\` line 270\n\n## Problem\nThe "Contact Me" button links to \`#Contact\`, but elsewhere (e.g. footer quick links) \`#contact\` is used. Since fragment IDs are case-sensitive, one of these links will not work.\n\n## Suggested Fix\nStandardize on a single lowercase fragment \`#contact\` in all navigation links, and ensure the Contact section uses \`id="contact"\`.\n\n**Review thread:** https://github.com/Yasar2019/myPortfolio/pull/8#discussion_r2935935845`,
+                labels: ["bug"]
+              },
+              {
+                title: "Fix case-sensitive #contact fragment link in Footer.jsx",
+                body: `**Source:** Copilot review comment on PR #8 — \`src/Components/Footer.jsx\` line 145\n\n## Problem\nThe footer quick link points to \`#contact\`, but the Contact section currently uses \`id="Contact"\` (capital C). Fragment IDs are case-sensitive, so this link will not scroll to the Contact section.\n\n## Suggested Fix\nUpdate either the link or the target \`id\` to be consistent. Recommended: use lowercase \`id="contact"\` on the Contact section and \`#contact\` in all links.\n\n**Review thread:** https://github.com/Yasar2019/myPortfolio/pull/8#discussion_r2935935846`,
+                labels: ["bug"]
+              },
+              {
+                title: "Fix id=\"Contact\" to use lowercase and move it to the section element in Contact.jsx",
+                body: `**Source:** Copilot review comment on PR #8 — \`src/Components/Contact.jsx\` line 92\n\n## Problem\nThe Contact anchor target is currently \`id="Contact"\` on the form, and it doesn't match \`#contact\` links (case-sensitive). Navigation to the contact section is broken from links that use lowercase \`#contact\`.\n\n## Suggested Fix\nPut a consistent \`id="contact"\` (lowercase) on the surrounding \`<section>\` element so navigation scrolls to the section heading and works from all links:\n\n\`\`\`jsx\n<Section id="contact">\n  {/* contact form content */}\n</Section>\n\`\`\`\n\n**Review thread:** https://github.com/Yasar2019/myPortfolio/pull/8#discussion_r2935935848`,
+                labels: ["bug"]
+              },
+              {
+                title: "Initialize BackToTop visibility on mount by calling handleScroll() once",
+                body: `**Source:** Copilot review comment on PR #8 — \`src/Components/BackToTop.jsx\` line 42\n\n## Problem\n\`BackToTop\` never calls \`handleScroll()\` on mount, so if the page loads already scrolled (>400px) the button will remain hidden until the user scrolls again.\n\n## Suggested Fix\nCall \`handleScroll()\` once after registering the listener to initialize \`visible\` correctly:\n\n\`\`\`js\nuseEffect(() => {\n  window.addEventListener('scroll', handleScroll);\n  handleScroll(); // initialize on mount\n  return () => window.removeEventListener('scroll', handleScroll);\n}, []);\n\`\`\`\n\n**Review thread:** https://github.com/Yasar2019/myPortfolio/pull/8#discussion_r2935935850`,
+                labels: ["bug"]
+              },
+              {
+                title: "Replace hardcoded #ff9a8b color in Skills.jsx progress bar with a CSS custom property",
+                body: `**Source:** Copilot review comment on PR #8 — \`src/Components/Skills.jsx\` line 77\n\n## Problem\nThe progress bar gradient still includes a hardcoded hex color (\`#ff9a8b\`), which undermines the CSS-variable theming approach and may look off in dark mode.\n\n## Suggested Fix\nMove the hardcoded color to a CSS custom property (e.g. a secondary accent) so it can be tuned per theme:\n\n\`\`\`css\n:root {\n  --accent-secondary: #ff9a8b;\n}\n[data-theme="dark"] {\n  --accent-secondary: /* dark theme value */;\n}\n\`\`\`\n\nThen use \`var(--accent-secondary)\` in the gradient definition.\n\n**Review thread:** https://github.com/Yasar2019/myPortfolio/pull/8#discussion_r2935935854`,
+                labels: ["enhancement"]
+              },
+              {
+                title: "Replace hardcoded #00d084 link color in Certifications.jsx with a CSS custom property",
+                body: `**Source:** Copilot review comment on PR #8 — \`src/Components/Certifications.jsx\` line 34 (suppressed low-confidence comment)\n\n## Problem\nThis link color is still hardcoded (\`#00d084\`). Since the PR introduces CSS variables for theming, this hardcoded color is inconsistent with the theming approach and won't adapt to theme changes.\n\n## Suggested Fix\nReplace the hardcoded color with a semantic CSS variable (e.g. \`--link-accent\` or reuse \`--accent\`) so it remains consistent across themes:\n\n\`\`\`css\na {\n  color: var(--accent);\n  font-size: 1.2rem;\n  text-decoration: none;\n}\n\`\`\`\n\n**Review thread:** Suppressed comment from Copilot review on PR #8`,
+                labels: ["enhancement"]
+              }
+            ];
+
+            // Fetch all existing repository labels once to avoid repeated API calls
+            const allLabels = await github.paginate(github.rest.issues.listLabelsForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 100
+            });
+            const existingLabelNames = new Set(allLabels.map(l => l.name));
+
+            // Fetch all existing issues (with pagination) to reliably detect duplicates
+            const existingIssues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'all',
+              per_page: 100
+            });
+            const existingTitles = new Set(existingIssues.map(i => i.title));
+
+            for (const issue of issues) {
+              if (existingTitles.has(issue.title)) {
+                console.log(`Issue already exists, skipping: "${issue.title}"`);
+                continue;
+              }
+
+              // Only apply labels that exist in the repository
+              const labelsToApply = (issue.labels || []).filter(name => {
+                if (!existingLabelNames.has(name)) {
+                  console.log(`Label "${name}" does not exist, skipping it.`);
+                  return false;
+                }
+                return true;
+              });
+
+              const created = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: issue.title,
+                body: issue.body,
+                labels: labelsToApply
+              });
+
+              console.log(`Created issue #${created.data.number}: "${issue.title}"`);
+            }
