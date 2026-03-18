@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import logoPic from "/src/images/logo.png";
 
@@ -106,15 +106,45 @@ const FooterBottom = styled.div`
 `;
 
 const Footer = () => {
+  const subscriptionFormRef = useRef(null);
+  const [subscriptionStatus, setSubscriptionStatus] = useState("");
+
+  const handleSubscription = (event) => {
+    event.preventDefault();
+    setSubscriptionStatus("");
+
+    const formData = new FormData(subscriptionFormRef.current);
+
+    fetch("https://formspree.io/f/xovqarqp", {
+      method: "POST",
+      body: formData,
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          setSubscriptionStatus("SUCCESS");
+          subscriptionFormRef.current.reset();
+          return;
+        }
+
+        setSubscriptionStatus("ERROR");
+      })
+      .catch(() => setSubscriptionStatus("ERROR"));
+  };
+
   return (
     <FooterSection>
       {/* Subscription Section */}
       <Section>
         <h3>Stay Updated!</h3>
-        <SubscribeContainer>
-          <input type="email" placeholder="Enter your email" />
-          <button>Subscribe</button>
+        <SubscribeContainer as="form" ref={subscriptionFormRef} onSubmit={handleSubscription}>
+          <input type="email" name="email" placeholder="Enter your email" required />
+          <button type="submit">Subscribe</button>
         </SubscribeContainer>
+        {subscriptionStatus === "SUCCESS" && <p>Thanks for subscribing!</p>}
+        {subscriptionStatus === "ERROR" && <p>Something went wrong. Please try again.</p>}
       </Section>
 
       {/* About Section */}
