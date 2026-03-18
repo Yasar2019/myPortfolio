@@ -15,6 +15,7 @@ const GlobalStyles = createGlobalStyle`
     --text-secondary: #333;
     --text-muted: #666;
     --accent: #ff6f61;
+    --accent-secondary: #ff9a8b;
     --accent-hover: #e65a51;
     --border: #ddd;
     --shadow: rgba(0, 0, 0, 0.1);
@@ -36,6 +37,7 @@ const GlobalStyles = createGlobalStyle`
     --text-secondary: #cfcfcf;
     --text-muted: #999;
     --accent: #ff6f61;
+    --accent-secondary: #ffb3a7;
     --accent-hover: #e65a51;
     --border: #3a3a3a;
     --shadow: rgba(0, 0, 0, 0.4);

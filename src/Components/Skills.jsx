@@ -74,7 +74,7 @@ const ProgressTrack = styled.div`
 const ProgressBar = styled.div`
   height: 100%;
   border-radius: 99px;
-  background: linear-gradient(90deg, var(--accent), #ff9a8b);
+  background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
   width: ${({ $percent }) => $percent}%;
   animation: ${fillAnimation} 1s ease-out forwards;
 
