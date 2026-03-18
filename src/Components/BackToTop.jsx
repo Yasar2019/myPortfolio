@@ -40,6 +40,7 @@ const BackToTop = () => {
       setVisible(window.scrollY > 400);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
