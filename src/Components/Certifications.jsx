@@ -29,7 +29,7 @@ const CertificationCard = styled.div`
   }
 
   a {
-    color: #00d084;
+    color: var(--accent);
     font-size: 1.2rem;
     text-decoration: none;
 
