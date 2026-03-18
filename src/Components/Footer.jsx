@@ -143,8 +143,10 @@ const Footer = () => {
           <input type="email" name="email" placeholder="Enter your email" required />
           <button type="submit">Subscribe</button>
         </SubscribeContainer>
-        {subscriptionStatus === "SUCCESS" && <p>Thanks for subscribing!</p>}
-        {subscriptionStatus === "ERROR" && <p>Something went wrong. Please try again.</p>}
+        {subscriptionStatus === "SUCCESS" && <p role="status">Thanks for subscribing!</p>}
+        {subscriptionStatus === "ERROR" && (
+          <p role="alert">Subscription failed. Please try again.</p>
+        )}
       </Section>
 
       {/* About Section */}
