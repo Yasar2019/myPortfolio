@@ -50,8 +50,15 @@ const GithubRepos = () => {
 
   useEffect(() => {
     fetch("https://api.github.com/users/Yasar2019/repos")
-      .then((response) => response.json())
-      .then((data) => setRepos(data.slice(0, 5))) // Fetch latest 5 repos
+      .then(async (response) => {
+        const data = await response.json();
+
+        if (!response.ok || !Array.isArray(data)) {
+          throw new Error("Invalid GitHub repos response");
+        }
+
+        setRepos(data.slice(0, 5)); // Fetch latest 5 repos
+      })
       .catch((error) => console.error("Error fetching repos:", error));
   }, []);
 
