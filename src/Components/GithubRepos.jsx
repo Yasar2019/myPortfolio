@@ -50,11 +50,16 @@ const GithubRepos = () => {
 
   useEffect(() => {
     fetch("https://api.github.com/users/Yasar2019/repos")
-      .then(async (response) => {
-        const data = await response.json();
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("GitHub API request failed");
+        }
 
-        if (!response.ok || !Array.isArray(data)) {
-          throw new Error("Invalid GitHub repos response");
+        return response.json();
+      })
+      .then((data) => {
+        if (!Array.isArray(data)) {
+          throw new Error("GitHub API returned invalid data format");
         }
 
         setRepos(data.slice(0, 5)); // Fetch latest 5 repos
