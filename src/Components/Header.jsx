@@ -108,6 +108,9 @@ const ProfileImage = styled.img`
   object-fit: cover;
   display: block;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
 `;
 
 const Name = styled.h1`
