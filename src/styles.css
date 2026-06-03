@@ -240,10 +240,10 @@ html {
   }
   
   .portfolio-image {
-    height: 90%;
     width: 100%;
+    height: 100%;
     object-fit: cover;
-    animation: 1s ease-out 0s 1 slideInLeft;
+    display: block;
   }
   
   .project-title {
@@ -258,17 +258,10 @@ html {
   }
 
   .portfolio-image-container {
-    max-width: 100%;
-    height: 200px; /* Adjust this value as needed */
-  }
-
-  .portfolio-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    min-width: 100%;
-    min-height: 100%;
-    z-index: -1;
+    width: min(250px, 40vw);
+    height: min(250px, 40vw);
+    border-radius: 50%;
+    overflow: hidden;
   }
 
   @media (max-width: 768px) {
