@@ -54,21 +54,21 @@ const GlobalStyles = createGlobalStyle`
   section,
   header,
   footer,
-  div,
-  p,
-  h1,
-  h2,
-  h3,
-  h4,
-  span,
   button,
   input,
   textarea,
-  a,
-  ul,
-  li {
+  a {
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease,
       box-shadow 0.3s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      transition: none !important;
+      animation: none !important;
+    }
   }
 
   body {
