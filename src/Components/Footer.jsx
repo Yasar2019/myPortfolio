@@ -140,7 +140,13 @@ const Footer = () => {
       <Section>
         <h3>Stay Updated!</h3>
         <SubscribeContainer as="form" ref={subscriptionFormRef} onSubmit={handleSubscription}>
-          <input type="email" name="email" placeholder="Enter your email" required />
+          <input
+            type="email"
+            name="email"
+            aria-label="Email for updates"
+            placeholder="Enter your email"
+            required
+          />
           <button type="submit">Subscribe</button>
         </SubscribeContainer>
         {subscriptionStatus === "SUCCESS" && <p role="status">Thanks for subscribing!</p>}
@@ -181,7 +187,7 @@ const Footer = () => {
 
       {/* Footer Bottom */}
       <FooterBottom>
-        <p>© 2024 Yasar Nazzarian. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Yasar Nazzarian. All rights reserved.</p>
       </FooterBottom>
     </FooterSection>
   );

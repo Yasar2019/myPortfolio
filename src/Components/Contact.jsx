@@ -66,6 +66,8 @@ const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (status === "SENDING") return;
+    setStatus("SENDING");
     const formData = new FormData(formRef.current);
 
     fetch("https://formspree.io/f/xovqarqp", {
@@ -90,15 +92,32 @@ const Contact = () => {
     <ContactSection>
       <h2>Contact Me</h2>
       <ContactForm id="Contact" ref={formRef} onSubmit={handleSubmit}>
-        <input type="text" name="name" placeholder="Your Name" required />
-        <input type="email" name="email" placeholder="Your Email" required />
-        <textarea name="message" rows="5" placeholder="Your Message" required />
-        <button type="submit">Send Message</button>
+        <label>
+          Your name
+          <input type="text" name="name" autoComplete="name" placeholder="Alex Morgan" required />
+        </label>
+        <label>
+          Email address
+          <input
+            type="email"
+            name="email"
+            autoComplete="email"
+            placeholder="alex@example.com"
+            required
+          />
+        </label>
+        <label>
+          Your message
+          <textarea name="message" rows="5" placeholder="Tell me what you have in mind…" required />
+        </label>
+        <button type="submit" disabled={status === "SENDING"}>
+          {status === "SENDING" ? "Sending…" : "Send message ↗"}
+        </button>
       </ContactForm>
 
       {/* Status Message */}
-      {status === "SUCCESS" && <p>Thank you! Your message has been sent.</p>}
-      {status === "ERROR" && <p>Oops! There was an error sending your message.</p>}
+      {status === "SUCCESS" && <p role="status">Thank you! Your message has been sent.</p>}
+      {status === "ERROR" && <p role="alert">Oops! There was an error sending your message.</p>}
     </ContactSection>
   );
 };
