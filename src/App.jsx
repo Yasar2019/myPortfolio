@@ -1,386 +1,567 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import PropTypes from "prop-types";
 import {
-  FaGithub,
-  FaLinkedin,
+  motion,
+  useInView,
+  useMotionValueEvent,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
+import {
+  FaArrowDown,
   FaArrowRight,
-  FaSun,
-  FaMoon,
+  FaDocker,
+  FaGithub,
   FaJava,
+  FaJsSquare,
+  FaLinkedin,
+  FaMicrosoft,
   FaPython,
   FaReact,
-  FaDocker,
-  FaMicrosoft,
-  FaJsSquare,
 } from "react-icons/fa";
-import SystemScene from "./Components/SystemScene";
 import Contact from "./Components/Contact";
-import Footer from "./Components/Footer";
-import Certifications from "./Components/Certifications";
-import profile from "./images/profile-pic.png";
+import animePortrait from "./images/anime-portrait.webp";
 import { projects } from "./data/projects";
 import { experiences } from "./data/experience";
 import "./redesign.css";
 
-const links = [
-  ["projects", "Work"],
-  ["about", "About"],
-  ["skills", "Stack"],
-  ["experience", "Experience"],
-];
-const skills = [
-  [FaJava, "Java", "Application development"],
-  [FaPython, "Python", "AI & data engineering"],
-  [FaJsSquare, "JavaScript", "Interactive experiences"],
-  [FaReact, "React", "Frontend development"],
-  [FaDocker, "Docker", "Containerized services"],
-  [FaMicrosoft, "Azure", "Cloud & AI services"],
+const sections = ["home", "about", "projects", "stack", "experience", "contact"];
+const stack = [
+  { icon: FaJava, name: "Java", note: "Reliable applications", x: "7%", y: "22%" },
+  { icon: FaPython, name: "Python", note: "AI + data", x: "68%", y: "10%" },
+  { icon: FaJsSquare, name: "JavaScript", note: "Web systems", x: "76%", y: "64%" },
+  { icon: FaReact, name: "React", note: "Interfaces", x: "15%", y: "68%" },
+  { icon: FaDocker, name: "Docker", note: "Containers", x: "45%", y: "78%" },
+  { icon: FaMicrosoft, name: "Azure", note: "Cloud services", x: "42%", y: "5%" },
 ];
 
-function Repositories() {
-  const [state, setState] = useState({ loading: true, repos: [], error: false });
-  useEffect(() => {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 12000);
-    fetch("https://api.github.com/users/Yasar2019/repos?sort=updated&per_page=3", {
-      signal: controller.signal,
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error("Unavailable");
-        return response.json();
-      })
-      .then((repos) => {
-        if (!Array.isArray(repos)) throw new Error("Invalid response");
-        setState({ loading: false, repos, error: false });
-      })
-      .catch(() => setState({ loading: false, repos: [], error: true }))
-      .finally(() => clearTimeout(timeout));
-    return () => {
-      clearTimeout(timeout);
-      controller.abort();
-    };
-  }, []);
+function Reveal({ children, className = "", delay = 0 }) {
+  const ref = useRef(null);
+  const visible = useInView(ref, { once: true, amount: 0.18 });
   return (
-    <div className="repo-panel">
-      <div className="repo-heading">
-        <h3>
-          <FaGithub /> From the repository
-        </h3>
-        <a href="https://github.com/Yasar2019" target="_blank" rel="noreferrer">
-          All repositories ↗
-        </a>
-      </div>
-      {state.loading && <p role="status">Loading latest repositories…</p>}
-      {state.error && (
-        <p role="status">
-          Live repositories are unavailable.{" "}
-          <a href="https://github.com/Yasar2019">Explore my work on GitHub ↗</a>
-        </p>
-      )}
-      {!state.loading && !state.error && !state.repos.length && (
-        <p>No public repositories to display.</p>
-      )}
-      <div className="repo-grid">
-        {state.repos.map((repo) => (
-          <a key={repo.id} href={repo.html_url} target="_blank" rel="noreferrer">
-            <strong>{repo.name} ↗</strong>
-            <p>{repo.description || "Explore the code on GitHub."}</p>
-            <small>{repo.language || "Repository"}</small>
-          </a>
-        ))}
-      </div>
+    <motion.div
+      ref={ref}
+      className={className}
+      initial={{ opacity: 0, y: 44 }}
+      animate={visible ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.75, delay, ease: [0.2, 0.8, 0.2, 1] }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+Reveal.propTypes = {
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+  delay: PropTypes.number,
+};
+
+function CircuitBackdrop() {
+  return (
+    <div className="circuit-backdrop" aria-hidden="true">
+      <div className="aurora aurora-one" />
+      <div className="aurora aurora-two" />
+      <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+        <g className="circuit-lines">
+          <path d="M0 168h186l54 54h194l68-68h226l56 56h416" />
+          <path d="M0 634h220l80-80h206l72 72h278l52-52h292" />
+          <path d="M194 0v120l62 62v146l-58 58v254l72 72v88" />
+          <path d="M1004 0v182l-64 64v154l58 58v342" />
+          <circle cx="434" cy="222" r="5" />
+          <circle cx="578" cy="626" r="5" />
+          <circle cx="940" cy="246" r="5" />
+          <circle cx="270" cy="712" r="5" />
+        </g>
+      </svg>
+      <div className="code-fragment code-a">const idea = await build();</div>
+      <div className="code-fragment code-b">01 · DESIGN / DEVELOP / DEPLOY</div>
+      <div className="code-fragment code-c">status: curious</div>
     </div>
   );
 }
 
+function PortraitScene() {
+  return (
+    <motion.div
+      className="portrait-scene"
+      initial={{ opacity: 0, scale: 0.92 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 1.1, delay: 0.15 }}
+    >
+      <div className="portrait-orbit orbit-a" />
+      <div className="portrait-orbit orbit-b" />
+      <div className="portrait-orbit orbit-c" />
+      <div className="portrait-halo" />
+      <motion.img
+        src={animePortrait}
+        alt="Anime portrait of Yasar Nazzarian"
+        className="anime-portrait"
+        animate={{ y: [0, -12, 0], rotate: [0, 0.5, 0] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="portrait-card card-role"
+        animate={{ y: [0, 8, 0] }}
+        transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <span>ROLE</span>
+        Software Developer
+      </motion.div>
+      <motion.div
+        className="portrait-card card-location"
+        animate={{ y: [0, -7, 0] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
+      >
+        <span>BASED IN</span>
+        Montréal, Canada
+      </motion.div>
+      <div className="portrait-status">
+        <i /> Available for opportunities
+      </div>
+    </motion.div>
+  );
+}
+
+function ProjectVisual({ index }) {
+  if (index === 0) {
+    return (
+      <div className="project-visual visual-network" aria-hidden="true">
+        <span className="network-line line-one" />
+        <span className="network-line line-two" />
+        <b className="node node-stm">STM</b>
+        <b className="node node-api">API</b>
+        <b className="node node-map">MAP</b>
+        <i className="signal signal-one" />
+        <i className="signal signal-two" />
+      </div>
+    );
+  }
+  if (index === 1) {
+    return (
+      <div className="project-visual visual-neural" aria-hidden="true">
+        {[0, 1, 2, 3].map((column) => (
+          <div className={`neural-column column-${column}`} key={column}>
+            {Array.from({ length: column % 2 ? 4 : 3 }, (_, node) => (
+              <i key={node} />
+            ))}
+          </div>
+        ))}
+        <svg viewBox="0 0 300 180">
+          <path d="M36 40l78 8 68-14 76 34M36 90l78-42 68 46 76-26M36 140l78-42 68-4 76 28M114 48l68 92 76-18M114 98l68-64" />
+        </svg>
+      </div>
+    );
+  }
+  return (
+    <div className="project-visual visual-data" aria-hidden="true">
+      <div className="data-cube cube-one">
+        <span />
+      </div>
+      <div className="data-cube cube-two">
+        <span />
+      </div>
+      <div className="data-cube cube-three">
+        <span />
+      </div>
+      <div className="data-beam" />
+      <b>≈</b>
+    </div>
+  );
+}
+
+ProjectVisual.propTypes = {
+  index: PropTypes.number.isRequired,
+};
+
+function OfflineFooter() {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end end"] });
+  const sky = useTransform(scrollYProgress, [0, 0.55, 1], ["#f2a56f", "#55408d", "#071221"]);
+  const moonY = useTransform(scrollYProgress, [0, 1], [120, 0]);
+  const screenGlow = useTransform(scrollYProgress, [0.15, 0.65, 0.95], [1, 1, 0.08]);
+  return (
+    <motion.footer ref={ref} className="offline-footer" style={{ backgroundColor: sky }}>
+      <motion.div className="moon" style={{ y: moonY }} aria-hidden="true">
+        &lt;/&gt;
+      </motion.div>
+      <div className="stars" aria-hidden="true">
+        {Array.from({ length: 22 }, (_, i) => (
+          <i key={i} style={{ "--i": i }} />
+        ))}
+      </div>
+      <div className="footer-copy">
+        <p className="kicker">END OF TRANSMISSION · 2026</p>
+        <h2>
+          Let’s build something
+          <br />
+          <em>worth remembering.</em>
+        </h2>
+        <a href="mailto:yasar20111926@hotmail.com">
+          Start a conversation <FaArrowRight />
+        </a>
+      </div>
+      <div className="hill" aria-hidden="true">
+        <div className="laptop">
+          <div className="laptop-lid">
+            <motion.div className="laptop-screen" style={{ opacity: screenGlow }}>
+              <span>YN_OS</span>
+              <b>ready to collaborate_</b>
+            </motion.div>
+          </div>
+          <div className="laptop-base">
+            <i />
+          </div>
+        </div>
+      </div>
+      <div className="footer-bottom">
+        <span>© {new Date().getFullYear()} Yasar Nazzarian</span>
+        <div>
+          <a href="https://github.com/Yasar2019" target="_blank" rel="noreferrer">
+            GitHub
+          </a>
+          <a href="https://www.linkedin.com/in/yasarnazzarian-98" target="_blank" rel="noreferrer">
+            LinkedIn
+          </a>
+          <a href="#home">Back to top ↑</a>
+        </div>
+      </div>
+    </motion.footer>
+  );
+}
+
 export default function App() {
-  const [menu, setMenu] = useState(false);
-  const [theme, setTheme] = useState(() => {
-    try {
-      return localStorage.getItem("theme") === "light" ? "light" : "dark";
-    } catch {
-      return "dark";
-    }
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [active, setActive] = useState("home");
+  const { scrollYProgress } = useScroll();
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 25,
+    restDelta: 0.001,
   });
+  const characterY = useTransform(smoothProgress, [0, 0.22], [0, 100]);
+
+  useMotionValueEvent(scrollYProgress, "change", () => {
+    const viewportTarget = window.scrollY + window.innerHeight * 0.45;
+    let current = "home";
+    sections.forEach((id) => {
+      const element = document.getElementById(id);
+      if (element && element.offsetTop <= viewportTarget) current = id;
+    });
+    setActive(current);
+  });
+
   useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-    try {
-      localStorage.setItem("theme", theme);
-    } catch {
-      /* Theme works without storage. */
-    }
-  }, [theme]);
-  useEffect(() => {
-    const close = (event) => {
-      if (event.key === "Escape") setMenu(false);
-    };
+    const close = (event) => event.key === "Escape" && setMenuOpen(false);
     window.addEventListener("keydown", close);
     return () => window.removeEventListener("keydown", close);
   }, []);
+
   return (
     <>
       <a className="skip-link" href="#main">
         Skip to content
       </a>
-      <header className="site-nav">
-        <a className="wordmark" href="#home" aria-label="Yasar Nazzarian home">
-          yn<span>.</span>
+      <motion.div className="scroll-progress" style={{ scaleX: smoothProgress }} />
+      <header className="site-header">
+        <a className="brand" href="#home" aria-label="Yasar Nazzarian home">
+          <span>Y</span>N
         </a>
-        <nav
-          id="navigation"
-          className={menu ? "nav-links open" : "nav-links"}
-          aria-label="Main navigation"
-        >
-          {links.map(([id, label]) => (
-            <a key={id} href={`#${id}`} onClick={() => setMenu(false)}>
-              {label}
+        <nav id="main-navigation" className={menuOpen ? "open" : ""} aria-label="Main navigation">
+          {sections.slice(1).map((id, index) => (
+            <a
+              className={active === id ? "active" : ""}
+              href={`#${id}`}
+              key={id}
+              onClick={() => setMenuOpen(false)}
+            >
+              <span>0{index + 1}</span>
+              {id === "stack" ? "Skills" : id}
             </a>
           ))}
-          <a className="nav-contact" href="#contact" onClick={() => setMenu(false)}>
-            Let’s talk ↗
-          </a>
         </nav>
-        <div className="nav-actions">
+        <div className="header-meta">
+          <span>
+            <i /> Open to work
+          </span>
           <button
-            className="icon-button"
             type="button"
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+            aria-expanded={menuOpen}
+            aria-controls="main-navigation"
+            onClick={() => setMenuOpen(!menuOpen)}
           >
-            {theme === "dark" ? <FaSun /> : <FaMoon />}
-          </button>
-          <button
-            className="menu-button"
-            type="button"
-            aria-expanded={menu}
-            aria-controls="navigation"
-            onClick={() => setMenu(!menu)}
-          >
-            {menu ? "Close" : "Menu"}
+            {menuOpen ? "Close" : "Menu"}
           </button>
         </div>
       </header>
+
       <main id="main">
-        <section className="hero page-width" id="home">
-          <div className="hero-copy">
-            <div className="eyebrow">
-              <span className="status-dot" /> SOFTWARE ENGINEER · MONTRÉAL
-            </div>
-            <p className="intro">Hi, I’m Yasar Nazzarian.</p>
-            <h1>
-              Turning ideas
-              <br />
-              into <em>intelligent</em>
-              <br />
-              experiences<span>.</span>
-            </h1>
-            <p className="hero-description">
-              I connect software, AI, and cloud technologies to build thoughtful solutions for
-              real-world problems.
-            </p>
-            <div className="hero-actions">
-              <a className="button primary" href="#projects">
-                Explore my work <FaArrowRight />
-              </a>
-              <a className="button quiet" href="#contact">
-                Get in touch ↗
-              </a>
-            </div>
-            <div className="hero-social">
-              <a href="https://github.com/Yasar2019" target="_blank" rel="noreferrer">
-                <FaGithub /> GitHub
-              </a>
-              <a
-                href="https://www.linkedin.com/in/yasarnazzarian-98"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <FaLinkedin /> LinkedIn
-              </a>
-              <span>Always learning. Always building.</span>
-            </div>
+        <section className="scroll-page hero-page" id="home">
+          <CircuitBackdrop />
+          <div className="hero-layout shell">
+            <Reveal className="hero-copy">
+              <p className="kicker">
+                <span>01</span> SOFTWARE DEVELOPER · MONTRÉAL
+              </p>
+              <h1>
+                I turn complex ideas into <em>clear digital systems.</em>
+              </h1>
+              <p className="hero-lead">
+                Software engineering, AI, and cloud computing—designed with curiosity and built with
+                purpose.
+              </p>
+              <div className="hero-actions">
+                <a className="cta cta-primary" href="#projects">
+                  Explore my work <FaArrowRight />
+                </a>
+                <a className="cta cta-secondary" href="#contact">
+                  Let’s talk
+                </a>
+              </div>
+              <div className="hero-proof">
+                <span>AI + DATA</span>
+                <span>CLOUD SYSTEMS</span>
+                <span>FULL-STACK</span>
+              </div>
+            </Reveal>
+            <motion.div style={{ y: characterY }}>
+              <PortraitScene />
+            </motion.div>
           </div>
-          <SystemScene />
+          <a className="scroll-cue" href="#about">
+            <span>Scroll to explore</span>
+            <FaArrowDown />
+          </a>
         </section>
-        <div className="discipline-strip">
-          <div className="page-width">
-            <span>SOFTWARE DEVELOPMENT</span>
-            <i>✳</i>
-            <span>ARTIFICIAL INTELLIGENCE</span>
-            <i>✳</i>
-            <span>CLOUD COMPUTING</span>
-            <i>✳</i>
-            <span>DATA ENGINEERING</span>
+
+        <section className="scroll-page about-page" id="about">
+          <div className="section-number" aria-hidden="true">
+            02
           </div>
-        </div>
-        <section className="section page-width" id="projects">
-          <div className="section-heading">
-            <div>
-              <p className="eyebrow">01 / SELECTED WORK</p>
+          <div className="shell about-layout">
+            <Reveal className="section-intro">
+              <p className="kicker">THE THINKING BEHIND THE WORK</p>
               <h2>
-                Built with purpose<span>.</span>
+                Engineering starts with <em>understanding.</em>
               </h2>
-            </div>
-            <p>
-              From distributed systems to machine learning.
-              <br />A few problems I’ve enjoyed solving.
-            </p>
-          </div>
-          <div className="project-grid">
-            {projects.map((project, index) => (
-              <article className={`project-card project-${index}`} key={project.title}>
-                <div className="project-art" aria-hidden="true">
-                  <span className="art-index">0{index + 1}</span>
-                  {index === 0 ? (
-                    <div className="pipeline">
-                      <b>STM</b>
-                      <span>↔</span>
-                      <b>API</b>
-                      <span>↔</span>
-                      <b>TomTom</b>
-                    </div>
-                  ) : index === 1 ? (
-                    <div className="go-board">
-                      {Array.from({ length: 25 }, (_, i) => (
-                        <span
-                          key={i}
-                          className={
-                            [6, 8, 12, 17].includes(i)
-                              ? "stone white"
-                              : [7, 11, 13, 18].includes(i)
-                              ? "stone black"
-                              : ""
-                          }
-                        />
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="data-stack">
-                      <span />
-                      <span />
-                      <span />
-                      <b>≈</b>
-                    </div>
-                  )}
-                  <span className="art-caption">
-                    {["DISTRIBUTED SYSTEMS", "MACHINE LEARNING", "DATA AT SCALE"][index]}
-                  </span>
-                </div>
-                <div className="project-copy">
-                  <h3>{project.title}</h3>
-                  <p>{project.description}</p>
-                  <div className="tags">
-                    {project.technologies.split(", ").map((tag) => (
-                      <span key={tag}>{tag}</span>
-                    ))}
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-          <Repositories />
-        </section>
-        <section className="about-band" id="about">
-          <div className="page-width about-layout">
-            <div className="portrait-frame">
-              <img src={profile} alt="Yasar Nazzarian" loading="lazy" />
-              <span>MONTRÉAL, QC / CANADA</span>
-            </div>
-            <div>
-              <p className="eyebrow">02 / THE PERSON BEHIND THE CODE</p>
-              <h2>
-                Curiosity drives me.
-                <br />
-                <em>Building defines me.</em>
-              </h2>
-              <p>
-                I am a recent graduate in Software Engineering from École de Technologie Supérieure,
-                Montreal, with a passion for AI integration, software development, and cloud
-                computing.
+            </Reveal>
+            <Reveal className="about-story" delay={0.12}>
+              <p className="story-large">
+                I’m Yasar, a software developer who enjoys turning messy, real-world problems into
+                systems people can trust.
               </p>
               <p>
-                My goal is to deliver scalable and impactful solutions that use cutting-edge
-                technologies.
+                My work lives where software, data, and people meet. I’ve built microservices,
+                experimented with machine learning, supported public-sector platforms, and
+                translated technical complexity into useful experiences.
               </p>
-              <a className="text-link" href="#experience">
-                Explore my experience <FaArrowRight />
-              </a>
-            </div>
-          </div>
-        </section>
-        <section className="section page-width" id="skills">
-          <div className="section-heading">
-            <div>
-              <p className="eyebrow">03 / MY TOOLKIT</p>
-              <h2>
-                The tools behind the ideas<span>.</span>
-              </h2>
-            </div>
-          </div>
-          <div className="skills-grid">
-            {skills.map(([Icon, name, description]) => (
-              <div className="skill-tile" key={name}>
-                <Icon aria-hidden="true" />
+              <div className="principles">
                 <div>
-                  <h3>{name}</h3>
-                  <p>{description}</p>
+                  <b>01</b>
+                  <span>Think in systems</span>
+                  <p>Understand the whole before optimizing the parts.</p>
+                </div>
+                <div>
+                  <b>02</b>
+                  <span>Build for people</span>
+                  <p>Clarity and reliability are features.</p>
+                </div>
+                <div>
+                  <b>03</b>
+                  <span>Stay curious</span>
+                  <p>The best solution often starts with a better question.</p>
                 </div>
               </div>
-            ))}
+            </Reveal>
+          </div>
+          <div className="architecture-line" aria-hidden="true">
+            <span>QUESTION</span>
+            <i />
+            <span>MODEL</span>
+            <i />
+            <span>BUILD</span>
+            <i />
+            <span>LEARN</span>
           </div>
         </section>
-        <section className="section page-width experience-section" id="experience">
-          <div>
-            <p className="eyebrow">04 / THE JOURNEY</p>
-            <h2>
-              Experience that
-              <br />
-              shapes my work<span>.</span>
-            </h2>
-            <p>
-              Building, supporting, and connecting
-              <br />
-              technology across different teams.
-            </p>
-          </div>
-          <div className="timeline">
-            {experiences.map((item) => (
-              <article key={item.company}>
-                <p className="eyebrow">{item.period}</p>
-                <h3>{item.role}</h3>
-                <strong>{item.company}</strong>
-                <p>{item.responsibilities}</p>
-              </article>
-            ))}
+
+        <section className="scroll-page projects-page" id="projects">
+          <div className="shell">
+            <Reveal className="projects-heading">
+              <div>
+                <p className="kicker">03 · SELECTED PROJECTS</p>
+                <h2>
+                  Ideas made <em>tangible.</em>
+                </h2>
+              </div>
+              <p>
+                A selection of systems built across distributed computing, AI, and large-scale data.
+              </p>
+            </Reveal>
+            <div className="project-deck">
+              {projects.map((project, index) => (
+                <Reveal className="project-panel" delay={index * 0.1} key={project.title}>
+                  <div className="project-top">
+                    <span>CASE 0{index + 1}</span>
+                    <span>{["SYSTEMS", "AI", "DATA"][index]}</span>
+                  </div>
+                  <ProjectVisual index={index} />
+                  <div className="project-body">
+                    <h3>{project.title}</h3>
+                    <p>{project.description}</p>
+                    <div>
+                      {project.technologies.split(", ").map((tech) => (
+                        <span key={tech}>{tech}</span>
+                      ))}
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+            <Reveal className="github-callout">
+              <div>
+                <FaGithub />
+                <span>
+                  <b>More experiments live on GitHub.</b>
+                  <small>Source code, iterations, and things I’m learning.</small>
+                </span>
+              </div>
+              <a href="https://github.com/Yasar2019" target="_blank" rel="noreferrer">
+                Open GitHub <FaArrowRight />
+              </a>
+            </Reveal>
           </div>
         </section>
-        <div className="legacy-cert page-width">
-          <Certifications />
-        </div>
-        <section className="contact-layout page-width section" id="contact">
-          <div>
-            <p className="eyebrow">05 / LET’S CONNECT</p>
-            <h2>
-              Have something
-              <br />
-              in mind?
-              <br />
-              <em>Let’s build it.</em>
-            </h2>
-            <p>
-              Have a project, an opportunity, or an interesting idea?
-              <br />
-              I’d love to hear about it.
-            </p>
-            <a className="text-link" href="mailto:yasar20111926@hotmail.com">
-              yasar20111926@hotmail.com ↗
-            </a>
+
+        <section className="scroll-page stack-page" id="stack">
+          <div className="stack-glow" aria-hidden="true" />
+          <div className="shell stack-layout">
+            <Reveal className="stack-copy">
+              <p className="kicker">04 · TECHNICAL TOOLKIT</p>
+              <h2>
+                A flexible stack for <em>real problems.</em>
+              </h2>
+              <p>
+                I choose technology for the system it needs to serve—not for the trend it happens to
+                follow.
+              </p>
+              <div className="stack-signature">
+                <span>CORE</span>
+                <b>Code → Cloud → Intelligence</b>
+              </div>
+            </Reveal>
+            <div className="skill-orbit" aria-label="Technical skills">
+              <div className="orbit-ring ring-outer" aria-hidden="true" />
+              <div className="orbit-ring ring-inner" aria-hidden="true" />
+              <div className="orbit-core">
+                <span>YN</span>
+                <small>ENGINEERING</small>
+              </div>
+              {stack.map(({ icon: Icon, name, note, x, y }, index) => (
+                <motion.div
+                  className="skill-chip"
+                  style={{ left: x, top: y }}
+                  initial={{ opacity: 0, scale: 0.7 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true, amount: 0.4 }}
+                  transition={{ delay: index * 0.08 }}
+                  whileHover={{ scale: 1.08, y: -5 }}
+                  key={name}
+                >
+                  <Icon />
+                  <span>
+                    <b>{name}</b>
+                    <small>{note}</small>
+                  </span>
+                </motion.div>
+              ))}
+            </div>
           </div>
-          <Contact />
+        </section>
+
+        <section className="scroll-page experience-page" id="experience">
+          <div className="shell experience-layout">
+            <Reveal className="experience-title">
+              <p className="kicker">05 · EXPERIENCE</p>
+              <h2>
+                Built through <em>real work.</em>
+              </h2>
+              <p>
+                Different environments, one constant: make technology clearer, more useful, and more
+                dependable.
+              </p>
+              <div className="cert-list" aria-label="Certifications">
+                <a
+                  className="cert-entry"
+                  href="https://www.credly.com/badges/1755ae09-3878-4274-bb2d-88e292cd0b5b?source=linked_in_profile"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span>AI</span>
+                  <p>
+                    <b>Microsoft Certified: Azure AI Fundamentals ↗</b>
+                    <small>Verify credential on Credly</small>
+                  </p>
+                </a>
+                <div className="cert-entry">
+                  <span>IT</span>
+                  <p>
+                    <b>ITIL 4 Foundation</b>
+                    <small>IT Service Management</small>
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+            <div className="experience-list">
+              {experiences.map((item, index) => (
+                <Reveal
+                  className="experience-item"
+                  delay={index * 0.1}
+                  key={`${item.company}-${item.role}`}
+                >
+                  <div className="experience-index">0{index + 1}</div>
+                  <div>
+                    <p className="experience-period">{item.period}</p>
+                    <h3>{item.role}</h3>
+                    <strong>{item.company}</strong>
+                    <p>{item.responsibilities}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="scroll-page contact-page" id="contact">
+          <div className="shell contact-layout">
+            <Reveal className="contact-copy">
+              <p className="kicker">06 · START A CONVERSATION</p>
+              <h2>
+                A good idea deserves a <em>strong build.</em>
+              </h2>
+              <p>
+                Have a role, project, or technical problem in mind? Send me the context. I’d like to
+                hear about it.
+              </p>
+              <div className="contact-links">
+                <a href="mailto:yasar20111926@hotmail.com">yasar20111926@hotmail.com</a>
+                <a
+                  href="https://www.linkedin.com/in/yasarnazzarian-98"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <FaLinkedin /> LinkedIn
+                </a>
+              </div>
+            </Reveal>
+            <Reveal delay={0.15}>
+              <Contact />
+            </Reveal>
+          </div>
         </section>
       </main>
-      <div className="legacy-footer">
-        <Footer />
-      </div>
+      <OfflineFooter />
     </>
   );
 }

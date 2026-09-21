@@ -161,7 +161,7 @@ const Footer = () => {
           <img src={logoPic} alt="Logo" />
         </LogoContainer>
         <p>
-          A passionate software engineer with experience in AI integration, cloud computing, and
+          A passionate software developer with experience in AI integration, cloud computing, and
           software development. Let&apos;s create impactful solutions together.
         </p>
       </Section>
