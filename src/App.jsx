@@ -107,7 +107,7 @@ function PortraitScene() {
         transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
       >
         <span>ROLE</span>
-        Software Engineer
+        Software Developer
       </motion.div>
       <motion.div
         className="portrait-card card-location"
@@ -302,7 +302,7 @@ export default function App() {
           <div className="hero-layout shell">
             <Reveal className="hero-copy">
               <p className="kicker">
-                <span>01</span> SOFTWARE ENGINEER · MONTRÉAL
+                <span>01</span> SOFTWARE DEVELOPER · MONTRÉAL
               </p>
               <h1>
                 I turn complex ideas into <em>clear digital systems.</em>
@@ -348,7 +348,7 @@ export default function App() {
             </Reveal>
             <Reveal className="about-story" delay={0.12}>
               <p className="story-large">
-                I’m Yasar, a software engineer who enjoys turning messy, real-world problems into
+                I’m Yasar, a software developer who enjoys turning messy, real-world problems into
                 systems people can trust.
               </p>
               <p>
@@ -491,13 +491,26 @@ export default function App() {
                 Different environments, one constant: make technology clearer, more useful, and more
                 dependable.
               </p>
-              <div className="cert-note">
-                <span>+</span>
-                <p>
-                  <b>Microsoft Azure AI Fundamentals</b>
-                  <br />
-                  ITIL 4 Foundation
-                </p>
+              <div className="cert-list" aria-label="Certifications">
+                <a
+                  className="cert-entry"
+                  href="https://www.credly.com/badges/1755ae09-3878-4274-bb2d-88e292cd0b5b?source=linked_in_profile"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span>AI</span>
+                  <p>
+                    <b>Microsoft Certified: Azure AI Fundamentals ↗</b>
+                    <small>Verify credential on Credly</small>
+                  </p>
+                </a>
+                <div className="cert-entry">
+                  <span>IT</span>
+                  <p>
+                    <b>ITIL 4 Foundation</b>
+                    <small>IT Service Management</small>
+                  </p>
+                </div>
               </div>
             </Reveal>
             <div className="experience-list">
