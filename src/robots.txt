@@ -1,2 +1,4 @@
 User-agent: *
-Disallow: 
+Allow: /
+
+Sitemap: https://yasar2019.github.io/myPortfolio/sitemap.xml
